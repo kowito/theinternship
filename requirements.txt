@@ -2,5 +2,6 @@ boto==2.39.0
 Django==1.9.4
 django-mailbox==4.4.6
 django-redis==4.3.0
+django-s3-storage==0.9.8
 redis==2.10.5
 six==1.10.0
