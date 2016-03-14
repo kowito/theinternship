@@ -105,7 +105,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "assets"),
 ]
 
-# ========================= CACHE =========================
+# ========================= CACHE =========================n
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
