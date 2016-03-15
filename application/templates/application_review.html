@@ -1,0 +1,30 @@
+{% extends "base_application_template.html" %}
+
+{% load bootstrap_pagination %}
+
+{% block content %}
+
+
+<div class="container app-container">
+	{% for app in applications %}
+	<h1>{{app.name}}</h1>
+	<div class="row">
+		<div class="col-md-4">
+			
+			<p>Position : <br />{{app.position}}</p>
+			<p>Company : <br />{{app.company}}</p>
+			<p>University : <br />{{app.university}}</p>
+			<p>Major : <br />{{app.major}}</p>
+			<p>Semester year : <br />{{app.semester_year}}</p>
+			<p>GPA : <br />{{app.gpa}}</p>
+		</div>
+		<div class="col-md-8">
+			{{app.get_content|safe}}
+		</div>
+		<div class="text-center">
+        {% bootstrap_paginate applications range=10 show_prev_next="false" show_first_last="true" %}
+        </div>
+	</div>
+	{% endfor %}
+</div>
+{% endblock content %}
