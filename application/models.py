@@ -50,6 +50,9 @@ class Application(models.Model):
 
     message_id = models.CharField(max_length=250)
 
+    def get_content(self):
+        return self.content[(self.content.index('GPA') + 20):(self.content.index('----') - 3)]
+
     def __str__(self):
         return self.email
 

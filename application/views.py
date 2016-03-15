@@ -1,10 +1,11 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-from django.contrib.auth.decorators import permission_required
-from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required, permission_required
 
-from django_mailbox.models import Message
+from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
+from django_mailbox.models import Message
 from application.models import Application
 import re
 from bs4 import BeautifulSoup
@@ -107,16 +108,17 @@ def add_to_application(msg):
         print("ValueError : %s" % msg.subject)
 
 
-@permission_required('application.can_process')
+@permission_required('application.can_process', raise_exception=True)
+@login_required
 def process_new_application(request):
     for msg in Message.objects.all():
         add_to_application(msg)
-    return redirect(reversed('application_home_urls'))
+    return redirect(reverse('application_home_urls'))
 
 
-@permission_required('application.can_list')
+@permission_required('application.can_list', raise_exception=True)
+@login_required
 def list(request):
-
     application_list = Application.objects.all()
     paginator = Paginator(application_list, 30)
     page = request.GET.get('page')
@@ -132,7 +134,27 @@ def list(request):
                               context_instance=RequestContext(request))
 
 
-@permission_required('application.can_edit')
+@permission_required('application.can_review', raise_exception=True)
+@login_required
+def application_review(request):
+    cat = request.GET.get("cat")
+    application_list = Application.objects.filter(position__contains=cat)
+    paginator = Paginator(application_list, 1)
+    page = request.GET.get('page')
+    try:
+        applications = paginator.page(page)
+    except PageNotAnInteger:
+        applications = paginator.page(1)
+    except EmptyPage:
+        applications = paginator.page(paginator.num_pages)
+
+    return render_to_response('application_review.html',
+                              {'applications': applications},
+                              context_instance=RequestContext(request))
+
+
+@permission_required('application.can_edit', raise_exception=True)
+@login_required
 def edit(request, id):
     result = {}
     return render_to_response('index.html',
@@ -140,7 +162,8 @@ def edit(request, id):
                               context_instance=RequestContext(request))
 
 
-@permission_required('application.can_delete')
+@permission_required('application.can_delete', raise_exception=True)
+@login_required
 def delete(request, id):
     result = {}
     return render_to_response('index.html',
@@ -148,7 +171,8 @@ def delete(request, id):
                               context_instance=RequestContext(request))
 
 
-@permission_required('application.can_see_detail')
+@permission_required('application.can_see_detail', raise_exception=True)
+@login_required
 def detail(request, id):
     result = {}
     return render_to_response('index.html',

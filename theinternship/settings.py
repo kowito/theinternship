@@ -19,11 +19,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+
 
     'django_mailbox',
     'bootstrap_pagination',
-
     'application',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -85,8 +91,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# ========================= AUTH =========================n
+FACEBOOK_APP_ID = '562260633943313'
+FACEBOOK_APP_SECRET = '63c9b3f6c44a108afb9a73d8351f0f93'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
 
-
+# ========================= Locale =========================n
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
