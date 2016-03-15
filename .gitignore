@@ -1,21 +1,20 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*$py.class
 
 # C extensions
 *.so
 
-
 # Distribution / packaging
-.DS_Store
 .Python
-.*_env
 env/
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
+.eggs/
 lib/
 lib64/
 parts/
@@ -24,8 +23,6 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
-node_modules/
-.env
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -39,14 +36,14 @@ pip-delete-this-directory.txt
 
 # Unit test / coverage reports
 htmlcov/
-.noseids
 .tox/
 .coverage
+.coverage.*
 .cache
-.noseids
 nosetests.xml
 coverage.xml
-reports/
+*,cover
+.hypothesis/
 
 # Translations
 *.mo
@@ -54,10 +51,13 @@ reports/
 
 # Django stuff:
 *.log
-static/COMPILED/
-media/
-static/
-assets/deploy/
+local_settings.py
+
+# Flask instance folder
+instance/
+
+# Scrapy stuff:
+.scrapy
 
 # Sphinx documentation
 docs/_build/
@@ -65,67 +65,21 @@ docs/_build/
 # PyBuilder
 target/
 
-# Deplayment
-.elasticbeanstalk/*
-!.elasticbeanstalk/*.cfg.yml
-!.elasticbeanstalk/*.global.yml
-.ebextensions/
-manifest.yml
-cf-ssh.yml
-.docker*
-*.env
+# IPython Notebook
+.ipynb_checkpoints
 
-# NodeJS File
-node_modules/
-bower_components/
-#===========================================================================================================
-# Xcode
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+# pyenv
+.python-version
 
-## Build generated
-build/
-DerivedData/
+# celery beat schedule file
+celerybeat-schedule
 
-## Various settings
-*.pbxuser
-!default.pbxuser
-*.mode1v3
-!default.mode1v3
-*.mode2v3
-!default.mode2v3
-*.perspectivev3
-!default.perspectivev3
-xcuserdata/
+# dotenv
+.env
 
-## Other
-*.moved-aside
-*.xcuserstate
+# virtualenv
+venv/
+ENV/
 
-## Obj-C/Swift specific
-*.hmap
-*.ipa
-
-# CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
-# Pods/
-
-# Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
-
-Carthage/Build
-
-# fastlane
-#
-# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the 
-# screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://github.com/fastlane/fastlane/blob/master/docs/Gitignore.md
-
-fastlane/report.xml
-fastlane/screenshots
+# Spyder project settings
+.spyderproject
