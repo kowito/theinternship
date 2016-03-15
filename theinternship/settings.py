@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_mailbox',
+    'bootstrap_pagination',
 
     'application',
 ]
@@ -37,7 +38,6 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'theinternship.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

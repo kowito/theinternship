@@ -1,18 +1,46 @@
 {% extends "base_application_template.html" %}
+
+{% load bootstrap_pagination %}
+
 {% block content %}
-<div class="clearfix visible-xs-block"></div>
-<div class="container">
+
+
+<div class="container app-container">
+	<h1>Application list</h1>
 	<div class="row">
-		<table class="table table-hover">
-			<tr>
-				<th>Text</th>
-			</tr>
-			{% for app in applications %}
-			<tr>
-				<td>{{app.subject}}</td>
-			</tr>
-			{% endfor %}
-		</table>
+		<div class="col-md-4 col-md-offset-8">
+			<a href="{% url 'application_process_urls'%}" class="btn btn-primary">Get New Application</a>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<table class="table table-hover table-striped table-bordered ">
+				<tr class="">
+					<th>Name</th>
+					<th>University</th>
+					<th>Position</th>
+					<th>Company</th>
+					<th>Score</th>
+					<th>Action</th>
+				</tr>
+				<tbody >
+				{% for app in applications %}
+				<tr>
+					<td>{{app.name}}</td>
+					<td>{{app.university}}</td>
+					<td>{{app.position}}</td>
+					<td>{{app.company}}</td>
+					<td>{{app.score}}</td>
+					<td><a href="">View</a></td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="text-center">
+        {% bootstrap_paginate applications range=10 show_prev_next="false" show_first_last="true" %}
+        </div>
 	</div>
 </div>
 {% endblock content %}
