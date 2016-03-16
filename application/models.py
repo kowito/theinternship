@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Application(models.Model):
@@ -58,3 +59,13 @@ class Application(models.Model):
 
     class meta:
         ordering = ['create_date']
+
+
+class Vote(models.Model):
+    application = models.ForeignKey(Application)
+    user = models.ForeignKey(User)
+    match = models.IntegerField()
+    point = models.IntegerField()
+
+    class meta:
+        unique_together = ('application', 'user', 'match')

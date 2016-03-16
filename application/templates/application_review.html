@@ -21,6 +21,12 @@
 			{{app.get_content|safe}}
 		</div>
 		<div class="text-center">
+		<div>
+		<a href="{% url 'application_vote_urls' app.id 1 %}{{next}}" class="btn btn-primary">1 : Absolutely Yes</a>
+		<a href="{% url 'application_vote_urls' app.id 2 %}{{next}}" class="btn btn-primary">2 : Maybe Yes</a>
+		<a href="{% url 'application_vote_urls' app.id 3 %}{{next}}" class="btn btn-primary">3 : Maybe No</a>
+		<a href="{% url 'application_vote_urls' app.id 4 %}{{next}}" class="btn btn-primary">4 : Not At All</a>
+		</div>
         {% bootstrap_paginate applications range=10 show_prev_next="false" show_first_last="true" %}
         </div>
 	</div>

@@ -10,5 +10,6 @@ urlpatterns = [
         url(r'^edit/$', views.edit, name='application_edit_urls'),
         url(r'^delete/$', views.delete, name='application_delete_urls'),
         url(r'^detail/$', views.detail, name='application_detail_urls'),
+        url(r'^vote/(?P<score>\w+)$', views.vote, name='application_vote_urls'),
     ])),
 ]

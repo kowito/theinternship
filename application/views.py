@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
 
@@ -6,7 +6,7 @@ from django.db import IntegrityError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django_mailbox.models import Message
-from application.models import Application
+from application.models import Application, Vote
 import re
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -79,7 +79,7 @@ def add_to_application(msg):
     #         app.dev_what_you_want_to_learn = result[
     #             17][result[17].index(':') + 1].strip()
     #         app.dev_exp = result[18][result[18].index(':') + 1].strip()
-    #         app.dev_short_blub = result[19][result[19].index(':') + 1].strip()
+    # app.dev_short_blub = result[19][result[19].index(':') + 1].strip()
 
     #         # สำหรับ Graphic เท่านั้น
     #         app.design_design_software = result[20][
@@ -138,9 +138,13 @@ def list(request):
 @login_required
 def application_review(request):
     cat = request.GET.get("cat")
+    page = request.GET.get('page')
     application_list = Application.objects.filter(position__contains=cat)
     paginator = Paginator(application_list, 1)
-    page = request.GET.get('page')
+
+    querystring = '?'
+    querystring += 'cat=%s' % cat if cat else ''
+    querystring += 'page=%s' % page if page else ''
     try:
         applications = paginator.page(page)
     except PageNotAnInteger:
@@ -149,7 +153,10 @@ def application_review(request):
         applications = paginator.page(paginator.num_pages)
 
     return render_to_response('application_review.html',
-                              {'applications': applications},
+                              {
+                                  'applications': applications,
+                                  'next': querystring
+                              },
                               context_instance=RequestContext(request))
 
 
@@ -178,3 +185,19 @@ def detail(request, id):
     return render_to_response('index.html',
                               result,
                               context_instance=RequestContext(request))
+
+
+@permission_required('application.can_vote', raise_exception=True)
+@login_required
+def vote(request, id, score):
+    app = get_object_or_404(Application, id=id)
+    vote, created = Vote.objects.get_or_create(
+        application=app, user=request.user, match=1, defaults={'point': score})
+    vote.save()
+    cat = request.GET.get("cat")
+    page = request.GET.get('page')
+    querystring = '?'
+    querystring += 'cat=%s' % cat if cat else ''
+    querystring += 'page=%s' % page if page else ''
+    return redirect(
+        reverse('application_review_urls') + querystring)

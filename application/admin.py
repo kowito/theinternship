@@ -1,5 +1,5 @@
 from django.contrib import admin
-from application.models import Application
+from application.models import Application, Vote
 
 
 class ApplicationAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Application, ApplicationAdmin)
+admin.site.register(Vote)
