@@ -58,15 +58,18 @@ class Application(models.Model):
     def __str__(self):
         return self.name
 
-    def get_score(self):
+    def get_vote(self):
 
-        return "%s / %s" % (
-            self.vote_set.aggregate(avg=Avg('point'))['avg'],
+        return "%s" % (
+            # self.vote_set.aggregate(avg=Avg('point'))['avg'],
             self.vote_set.count()
         )
 
     def is_voted(self):
         return self.vote_set
+
+    def get_vote_list(self):
+        return self.vote_set.all()
 
     class meta:
         ordering = ['create_date']

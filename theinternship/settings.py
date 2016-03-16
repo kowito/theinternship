@@ -106,6 +106,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 SITE_ID = 1
+ACCOUNT_LOGOUT_ON_GET = True
 
 # ========================= Locale =========================n
 # Internationalization

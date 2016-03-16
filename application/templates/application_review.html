@@ -3,8 +3,14 @@
 {% block content %}
 <div class="container app-container">
 	{% for app in applications %}
-	<h1>{{app.name}} </h1>
-	<h2>{{app.get_score}}</h2>
+	<h2>
+		{% for voter in app.get_vote_list %}
+			{% if voter.user.id == request.user.id %}
+			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>	
+			{% endif %}
+		{% endfor %}
+	 {{app.name}}</h2>
+	<h3>{{app.get_vote}} vote</h3>
 	<div>
 		<div class="text-center">
 			<div>
@@ -24,6 +30,12 @@
 			<p>Major : <br />{{app.major}}</p>
 			<p>Semester year : <br />{{app.semester_year}}</p>
 			<p>GPA : <br />{{app.gpa}}</p>
+
+			<ul>
+			{% for voter in app.get_vote_list %}
+				<li>{{voter.user.id}}</li>	
+			{% endfor %}
+			</ul>
 		</div>
 		<div class="col-md-8">
 			{{app.get_content|safe}}
