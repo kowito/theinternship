@@ -11,6 +11,7 @@ django-mailbox==4.4.6
 django-redis==4.3.0
 django-s3-storage==0.9.8
 gnureadline==6.3.3
+gunicorn==19.4.5
 ipython==4.1.2
 ipython-genutils==0.1.0
 oauthlib==1.0.3
