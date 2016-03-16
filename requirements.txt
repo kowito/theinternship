@@ -9,6 +9,7 @@ django-allauth==0.25.2
 django-bootstrap-pagination==1.6.1
 django-mailbox==4.4.6
 django-redis==4.3.0
+django-redis-cache==1.6.5
 django-s3-storage==0.9.8
 gnureadline==6.3.3
 gunicorn==19.4.5
