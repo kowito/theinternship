@@ -31,9 +31,11 @@
 			<p>Semester year : <br />{{app.semester_year}}</p>
 			<p>GPA : <br />{{app.gpa}}</p>
 
+			<hr>
+			<h3>Voter</h3>
 			<ul>
 			{% for voter in app.get_vote_list %}
-				<li>{{voter.user.id}}</li>	
+				<li>{{voter.user}}</li>	
 			{% endfor %}
 			</ul>
 		</div>
