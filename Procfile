@@ -1,1 +1,1 @@
-web:gunicorn -w 4 theinternship.wsgi
+web: gunicorn -w 4 theinternship.wsgi
