@@ -4,7 +4,7 @@ from application import views
 urlpatterns = [
     url(r'^$', views.list, name='application_home_urls'),
     url(r'^review/$', views.application_review, name='application_review_urls'),
-    url(r'^process/$', 'application.views.process_new_application',
+    url(r'^process/$', views.process_new_application,
         name='application_process_urls'),
     url(r'^(?P<id>\w+)/', include([
         url(r'^edit/$', views.edit, name='application_edit_urls'),
