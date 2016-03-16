@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 
 class Application(models.Model):
@@ -55,7 +56,17 @@ class Application(models.Model):
         return self.content[(self.content.index('GPA') + 20):(self.content.index('--') - 3)]
 
     def __str__(self):
-        return self.email
+        return self.name
+
+    def get_score(self):
+
+        return "%s / %s" % (
+            self.vote_set.aggregate(avg=Avg('point'))['avg'],
+            self.vote_set.count()
+        )
+
+    def is_voted(self):
+        return self.vote_set
 
     class meta:
         ordering = ['create_date']

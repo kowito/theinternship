@@ -143,8 +143,8 @@ def application_review(request):
     paginator = Paginator(application_list, 1)
 
     querystring = '?'
-    querystring += 'cat=%s' % cat if cat else ''
-    querystring += 'page=%s' % page if page else ''
+    querystring += 'cat=%s&' % cat if cat else ''
+    querystring += 'page=%s&' % page if page else ''
     try:
         applications = paginator.page(page)
     except PageNotAnInteger:
@@ -193,11 +193,12 @@ def vote(request, id, score):
     app = get_object_or_404(Application, id=id)
     vote, created = Vote.objects.get_or_create(
         application=app, user=request.user, match=1, defaults={'point': score})
+    vote.point = score
     vote.save()
     cat = request.GET.get("cat")
     page = request.GET.get('page')
     querystring = '?'
-    querystring += 'cat=%s' % cat if cat else ''
-    querystring += 'page=%s' % page if page else ''
+    querystring += 'cat=%s&' % cat if cat else ''
+    querystring += 'page=%s&' % page if page else ''
     return redirect(
         reverse('application_review_urls') + querystring)

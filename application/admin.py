@@ -8,5 +8,8 @@ class ApplicationAdmin(admin.ModelAdmin):
     search_fields = ['email', ]
 
 
+class VoteAdmin(admin.ModelAdmin):
+    list_display = ('application', 'user', 'point')
+
 admin.site.register(Application, ApplicationAdmin)
-admin.site.register(Vote)
+admin.site.register(Vote, VoteAdmin)
