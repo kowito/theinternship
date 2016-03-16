@@ -2,7 +2,9 @@ appnope==0.1.0
 beautifulsoup4==4.4.1
 boto==2.39.0
 decorator==4.0.9
+defusedxml==0.4.1
 Django==1.9.4
+django-allauth==0.25.2
 django-bootstrap-pagination==1.6.1
 django-mailbox==4.4.6
 django-redis==4.3.0
@@ -10,12 +12,16 @@ django-s3-storage==0.9.8
 gnureadline==6.3.3
 ipython==4.1.2
 ipython-genutils==0.1.0
+oauthlib==1.0.3
 path.py==8.1.2
 pexpect==4.0.1
 pickleshare==0.6
 Pillow==3.1.1
 ptyprocess==0.5.1
+python3-openid==3.0.9
 redis==2.10.5
+requests==2.9.1
+requests-oauthlib==0.6.1
 simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.1.0
