@@ -1,0 +1,13 @@
+{% extends "base_template.html" %}
+{% load i18n %}
+{% block header %}{% endblock header %}
+{% block content %}
+<div class="container">
+	<div class="row account">
+	  <div class="col-md-8 col-md-offset-2">
+	    <h2 class="text-center">{{user.get_full_name}}</h2>
+	    <h3 class="text-center">{{user}}</h3>
+	  </div>
+	</div>
+</div>
+{% endblock content %}      
