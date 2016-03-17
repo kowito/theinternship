@@ -3,14 +3,16 @@
 {% block content %}
 <div class="container app-container">
 	{% for app in applications %}
-	<h2>
-		{% for voter in app.get_vote_list %}
-			{% if voter.user.id == request.user.id %}
-			<span class="glyphicon glyphicon-check" aria-hidden="true"></span>	
-			{% endif %}
-		{% endfor %}
-	 {{app.name}}</h2>
+	<h2>{{app.name}}</h2>
+		
+	 
 	<h3>{{app.get_vote}} vote</h3>
+	{% for voter in app.get_vote_list %}
+		{% if voter.user.id == request.user.id %}
+			<span class="badge">Vote : {{voter.point}}</span>
+			<span class="badge">Average : {{app.get_avg}}</span>
+		{% endif %}
+	{% endfor %}
 	<div>
 		<div class="text-center">
 			<div>

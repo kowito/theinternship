@@ -65,6 +65,9 @@ class Application(models.Model):
             self.vote_set.count()
         )
 
+    def get_avg(self):
+        return self.vote_set.aggregate(avg=Avg('point'))['avg']
+
     def is_voted(self):
         return self.vote_set
 
