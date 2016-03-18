@@ -10,9 +10,11 @@
 					<th>University</th>
 					<th>Email</th>
 					<th>Tel</th>
-					<th>Score</th>
-					<th>Score</th>
-					<th>Score</th>
+					<th>se</th>
+					<th>qa</th>
+					<th>mkt</th>
+					<th>po</th>
+					<th>designer</th>
 				</tr>
 				<tbody >
 				{% for app in applications %}
@@ -21,8 +23,10 @@
 					<td>{{app.university}}</td>
 					<td>{{app.email}}</td>
 					<td>{{app.tel}}</td>
-					<td>{{app.get_score_se_qa}}</td>
-					<td>{{app.get_score_mkt_po}}</td>
+					<td>{{app.get_score_se}}</td>
+					<td>{{app.get_score_qa}}</td>
+					<td>{{app.get_score_mkt}}</td>
+					<td>{{app.get_score_po}}</td>
 					<td>{{app.get_score_designer}}</td>
 				</tr>
 				{% endfor %}

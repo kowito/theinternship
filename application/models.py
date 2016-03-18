@@ -78,28 +78,32 @@ class Application(models.Model):
     def get_vote_list(self):
         return self.vote_set.all()
 
-    def get_score_se_qa(self):
-        judge = ['teepakorn', 'boy_pattrawoot',
-                 'dave_rawitat', 'nati', 'verachart']
-        self.score_se_qa = self.vote_set.filter(
+    def get_score_se(self):
+        judge = ['boy_pattrawoot', 'dave_rawitat', 'nati', 'verachart']
+        return self.vote_set.filter(
             user__username__in=judge).aggregate(avg=Avg('point'))['avg']
-        self.save()
-        return self.score_se_qa
 
-    def get_score_mkt_po(self):
-        judge = ['Jingjoh', 'jijy', 'orez', 'shakrit', 'thanapat',
-                 'cokecoke', 'lertad', 'planeswalker', 'kong']
-        self.score_mkt_po = self.vote_set.filter(
+    def get_score_qa(self):
+        judge = ['teepakorn']
+        return self.vote_set.filter(
             user__username__in=judge).aggregate(avg=Avg('point'))['avg']
-        self.save()
-        return self.score_mkt_po
+
+    def get_score_mkt(self):
+        judge = ['Jingjoh', 'jijy', 'orez', 'shakrit', 'thanapat',
+                 'cokecoke', 'lertad', 'planeswalker']
+
+        return self.vote_set.filter(
+            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
+
+    def get_score_po(self):
+        judge = ['kong']
+        return self.vote_set.filter(
+            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
 
     def get_score_designer(self):
         judge = ['kanyapat', 'kowito', 'stamp']
-        self.score_designer = self.vote_set.filter(
+        return self.vote_set.filter(
             user__username__in=judge).aggregate(avg=Avg('point'))['avg']
-        self.save()
-        return self.score_designer
 
     class meta:
         ordering = ['create_date']
