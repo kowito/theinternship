@@ -78,10 +78,15 @@ class Application(models.Model):
         )
 
     def clean_score(self):
-        for k, v in JUDGE:
-            for a in Application.objects.exclude(position_contains=k):
-                vote = Vote.objects.filter(application=a, user__username__in=v)
-                print("%s\n%s:%s" % (vote.application, a.position, vote.user))
+        for k, v in JUDGE.items():
+            for a in Application.objects.exclude(position__contains=k):
+                try:
+                    b = Vote.objects.get(application=a, user__username__in=v)
+                    print("%s\n%s:%s" % (b.application, b.position, b.user))
+                except:
+                    pass
+                    # print("pass : %s" % a)
+
                 # vote.delete()
 
     def get_avg(self):
