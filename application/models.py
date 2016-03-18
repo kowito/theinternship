@@ -81,7 +81,8 @@ class Application(models.Model):
         for k, v in JUDGE:
             for a in Application.objects.exclude(position_contains=k):
                 vote = Vote.objects.filter(application=a, user__username__in=v)
-                vote.delete()
+                print("%s\n%s:%s" % (vote.application, a.position, vote.user))
+                # vote.delete()
 
     def get_avg(self):
         return self.vote_set.aggregate(avg=Avg('point'))['avg']
