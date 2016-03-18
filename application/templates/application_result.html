@@ -23,11 +23,11 @@
 					<td>{{app.university}}</td>
 					<td>{{app.email}}</td>
 					<td>{{app.tel}}</td>
-					<td>{{app.get_score_se}}</td>
-					<td>{{app.get_score_qa}}</td>
-					<td>{{app.get_score_mkt}}</td>
-					<td>{{app.get_score_po}}</td>
-					<td>{{app.get_score_designer}}</td>
+					<td>{{app.get_score_se|floatformat:4}}</td>
+					<td>{{app.get_score_qa|floatformat:4}}</td>
+					<td>{{app.get_score_mkt|floatformat:4}}</td>
+					<td>{{app.get_score_po|floatformat:4}}</td>
+					<td>{{app.get_score_designer|floatformat:4}}</td>
 				</tr>
 				{% endfor %}
 				</tbody>
