@@ -10,6 +10,7 @@ class ApplicationAdmin(admin.ModelAdmin):
 
 class VoteAdmin(admin.ModelAdmin):
     list_display = ('application', 'user', 'point')
+    list_filter = ('user', 'point')
 
 admin.site.register(Application, ApplicationAdmin)
 admin.site.register(Vote, VoteAdmin)
