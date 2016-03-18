@@ -5,6 +5,8 @@ urlpatterns = [
     url(r'^$', views.list, name='application_home_urls'),
     url(r'^review/$', views.application_review, name='application_review_urls'),
     url(r'^result/$', views.application_result, name='application_result_urls'),
+    url(r'^raw_data/$', views.application_raw_data,
+        name='application_raw_data_urls'),
     url(r'^process/$', views.process_new_application,
         name='application_process_urls'),
     url(r'^(?P<id>\w+)/', include([

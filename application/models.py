@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Avg
 
+JUDGE = {
+    'Software': ['boy_pattrawoot', 'dave_rawitat', 'nati', 'verachart'],
+    'QA': ['teepakorn', 'dave_qa', 'kowito_qa'],
+    'Marketing': ['Jingjoh', 'jijy', 'orez', 'shakrit', 'thanapat', 'cokecoke', 'lertad', 'planeswalker'],
+    'Product': ['kong', 'coke_po'],
+    'Designer': ['kanyapat', 'kowito', 'stamp'],
+}
+
 
 class Application(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
@@ -69,6 +77,12 @@ class Application(models.Model):
             self.vote_set.count()
         )
 
+    def clean_score(self):
+        for k, v in JUDGE:
+            for a in Application.objects.exclude(position_contains=k):
+                vote = Vote.objects.filter(application=a, user__username__in=v)
+                vote.delete()
+
     def get_avg(self):
         return self.vote_set.aggregate(avg=Avg('point'))['avg']
 
@@ -78,32 +92,29 @@ class Application(models.Model):
     def get_vote_list(self):
         return self.vote_set.all()
 
+    def get_score(self, user):
+        return Vote.objects.filter(user=user).point
+
     def get_score_se(self):
-        judge = ['boy_pattrawoot', 'dave_rawitat', 'nati', 'verachart']
         return self.vote_set.filter(
-            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
+            user__username__in=JUDGE['Software']).aggregate(avg=Avg('point'))['avg']
 
     def get_score_qa(self):
-        judge = ['teepakorn']
         return self.vote_set.filter(
-            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
+            user__username__in=JUDGE['QA']).aggregate(avg=Avg('point'))['avg']
 
     def get_score_mkt(self):
-        judge = ['Jingjoh', 'jijy', 'orez', 'shakrit', 'thanapat',
-                 'cokecoke', 'lertad', 'planeswalker']
-
         return self.vote_set.filter(
-            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
+            user__username__in=JUDGE['Marketing']).aggregate(avg=Avg('point'))['avg']
 
     def get_score_po(self):
-        judge = ['kong']
+
         return self.vote_set.filter(
-            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
+            user__username__in=JUDGE['Product']).aggregate(avg=Avg('point'))['avg']
 
     def get_score_designer(self):
-        judge = ['kanyapat', 'kowito', 'stamp']
         return self.vote_set.filter(
-            user__username__in=judge).aggregate(avg=Avg('point'))['avg']
+            user__username__in=JUDGE['Designer']).aggregate(avg=Avg('point'))['avg']
 
     class meta:
         ordering = ['create_date']
@@ -114,6 +125,9 @@ class Vote(models.Model):
     user = models.ForeignKey(User)
     match = models.IntegerField()
     point = models.IntegerField()
+
+    def get_score(self, application, user):
+        return self.objects.filter(application=application, user=user)
 
     class meta:
         unique_together = ('application', 'user', 'match')

@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -255,5 +256,20 @@ def application_result(request):
     return render_to_response('application_result.html',
                               {
                                   'applications': applications,
+                              },
+                              context_instance=RequestContext(request))
+
+
+@permission_required('application.can_result', raise_exception=True)
+@login_required
+def application_raw_data(request):
+    applications = Application.objects.all()
+    vote = Vote.objects.all()
+    judge = User.objects.all()
+    return render_to_response('application_raw_data.html',
+                              {
+                                  'applications': applications,
+                                  'vote': vote,
+                                  'judge': judge,
                               },
                               context_instance=RequestContext(request))
