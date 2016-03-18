@@ -139,12 +139,12 @@ def list(request):
 def application_review(request):
     cat = request.GET.get("cat")
     page = request.GET.get('page')
-    application_list = Application.objects.filter(position__contains=cat)
-    paginator = Paginator(application_list, 1)
-
     querystring = '?'
     querystring += 'cat=%s&' % cat if cat else ''
     querystring += 'page=%s&' % page if page else ''
+
+    application_list = Application.objects.filter(position__contains=cat)
+    paginator = Paginator(application_list, 1)
     try:
         applications = paginator.page(page)
     except PageNotAnInteger:
@@ -202,3 +202,48 @@ def vote(request, id, score):
     querystring += 'page=%s&' % page if page else ''
     return redirect(
         reverse('application_review_urls') + querystring)
+
+
+@permission_required('application.can_vote', raise_exception=True)
+@login_required
+def my_vote(request, id, score):
+    cat = request.GET.get("cat")
+    page = request.GET.get('page')
+    querystring = '?'
+    querystring += 'cat=%s&' % cat if cat else ''
+    querystring += 'page=%s&' % page if page else ''
+
+    app_id = []
+
+    if score == '6':
+        my_vote = Vote.objects.filter(user=request.user)
+        for vote in my_vote:
+            app_id.append(vote.application.id)
+        application_list = Application.objects.filter(
+            position__contains=cat).exclude(id__in=app_id)
+    else:
+        my_vote = Vote.objects.filter(user=request.user, point=score)
+        for vote in my_vote:
+            app_id.append(vote.application.id)
+
+        application_list = Application.objects.filter(
+            position__contains=cat, id__in=app_id)
+
+    try:
+        page = None if int(page) > application_list.count() else page
+    except:
+        page = None
+    paginator = Paginator(application_list, 1)
+    try:
+        applications = paginator.page(page)
+    except PageNotAnInteger:
+        applications = paginator.page(1)
+    except EmptyPage:
+        applications = paginator.page(paginator.num_pages)
+
+    return render_to_response('application_review.html',
+                              {
+                                  'applications': applications,
+                                  'next': querystring
+                              },
+                              context_instance=RequestContext(request))

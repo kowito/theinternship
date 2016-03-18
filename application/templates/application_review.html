@@ -4,23 +4,32 @@
 <div class="container app-container">
 	{% for app in applications %}
 	<h2>{{app.name}}</h2>
-	<h3>{{app.get_vote}} vote</h3>
+	<h3>{{app.get_vote}} vote
 	{% for voter in app.get_vote_list %}
 		{% if voter.user.id == request.user.id %}
-			<span class="badge">You Vote : {{voter.point}}</span>
-			<span class="badge">Average : {{app.get_avg}}</span>
+			<span class="badge">Your Vote : {{voter.point}}</span>
+			<span class="badge">Average : {{app.get_avg|floatformat:2}}</span>
 		{% endif %}
 	{% endfor %}
+	</h3>
 	<div class="row">
 		<div class="col-md-11">
 			<div class="text-center">
-				<div>
+				<div class="btn-group">
 					<a href="{% url 'application_vote_urls' app.id 1 %}{{next}}" class="btn btn-primary">1 : Absolutely Yes</a>
 					<a href="{% url 'application_vote_urls' app.id 2 %}{{next}}" class="btn btn-primary">2 : Maybe Yes</a>
 					<a href="{% url 'application_vote_urls' app.id 3 %}{{next}}" class="btn btn-primary">3 : Maybe No</a>
 					<a href="{% url 'application_vote_urls' app.id 4 %}{{next}}" class="btn btn-primary">4 : Not At All</a>
 				</div>
-		        {% bootstrap_paginate applications range=3 show_prev_next="true" show_first_last="true" %}
+				<div class="btn-group">
+					<a href="{% url 'my_vote_urls' app.id '1' %}{{next}}" class="btn btn-default">1</a>
+					<a href="{% url 'my_vote_urls' app.id '2' %}{{next}}" class="btn btn-default">2</a>
+					<a href="{% url 'my_vote_urls' app.id '3' %}{{next}}" class="btn btn-default">3</a>
+					<a href="{% url 'my_vote_urls' app.id '4' %}{{next}}" class="btn btn-default">4</a>
+					<a href="{% url 'my_vote_urls' app.id '5' %}{{next}}" class="btn btn-default">B</a>
+					<a href="{% url 'my_vote_urls' app.id '6' %}{{next}}" class="btn btn-default">No</a>
+				</div>
+				<div>{% bootstrap_paginate applications range=3 show_prev_next="true" show_first_last="true" %}</div>
 		    </div>
 		</div>
 		<div class="col-md-1">
