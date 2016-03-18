@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required, permission_required
-
 from django.db import IntegrityError
+from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django_mailbox.models import Message
@@ -240,10 +240,20 @@ def my_vote(request, id, score):
         applications = paginator.page(1)
     except EmptyPage:
         applications = paginator.page(paginator.num_pages)
-
     return render_to_response('application_review.html',
                               {
                                   'applications': applications,
                                   'next': querystring
+                              },
+                              context_instance=RequestContext(request))
+
+
+@permission_required('application.can_result', raise_exception=True)
+@login_required
+def application_result(request):
+    applications = Application.objects.all()
+    return render_to_response('application_result.html',
+                              {
+                                  'applications': applications,
                               },
                               context_instance=RequestContext(request))
