@@ -263,9 +263,10 @@ def application_result(request):
 @permission_required('application.can_result', raise_exception=True)
 @login_required
 def application_raw_data(request):
-    applications = Application.objects.all()
+    applications = Application.objects.filter(position__contains="Marketing")
     vote = Vote.objects.all()
-    judge = User.objects.all()
+    judge = User.objects.filter(user__username__in=[
+                                'Jingjoh', 'jijy', 'orez', 'shakrit', 'thanapat', 'cokecoke', 'lertad', 'planeswalker'])
     return render_to_response('application_raw_data.html',
                               {
                                   'applications': applications,
